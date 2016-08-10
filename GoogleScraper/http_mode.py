@@ -3,13 +3,14 @@
 import threading
 import json
 import datetime
+import random
 import socket
 from urllib.parse import urlencode
 
 import GoogleScraper.socks as socks
 from GoogleScraper.scraping import SearchEngineScrape, get_base_search_url_by_search_engine
 from GoogleScraper.parsing import get_parser_by_search_engine
-from GoogleScraper.user_agents import random_user_agent
+from GoogleScraper.user_agents import user_agents
 import logging
 
 logger = logging.getLogger(__name__)
@@ -17,12 +18,12 @@ logger = logging.getLogger(__name__)
 headers = {
     'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
     'Accept-Language': 'en-US,en;q=0.5',
-    'Accept-Encoding': 'gzip, deflate, sdch',
+    'Accept-Encoding': 'gzip, deflate',
     'Connection': 'keep-alive',
 }
 
 
-def get_GET_params_for_search_engine(query, search_engine, page_number=1, num_results_per_page=10,
+def get_GET_params_for_search_engine(query, search_engine, config, page_number=1, num_results_per_page=10,
                                      search_type='normal'):
     """Returns the params of the url for the search engine and the search mode.
 
@@ -38,12 +39,17 @@ def get_GET_params_for_search_engine(query, search_engine, page_number=1, num_re
     """
 
     search_params = {}
-
     if search_engine == 'google':
         # always use the english interface, such that we can detect
         # state by some hard coded needles.
         search_params['hl'] = 'en'
         search_params['q'] = query
+        if isinstance(config['country'], str):
+            print(config['country'])
+            search_params['gl'] = config['country'].upper()
+            search_params['cr'] = "country" + (config['country']).upper()
+            search_params['gws_rd'] = "cr"
+
         # only set when other num results than 10.
         if num_results_per_page != 10:
             search_params['num'] = str(num_results_per_page)
@@ -162,7 +168,7 @@ class HttpScrape(SearchEngineScrape, threading.Timer):
         super().instance_creation_info(self.__class__.__name__)
 
         if self.search_engine_name == 'blekko':
-            logger.critical('blekko does not support http mode.')
+            logger.critical('blekko doesnt support http mode.')
             self.startable = False
 
     def set_proxy(self):
@@ -238,14 +244,14 @@ class HttpScrape(SearchEngineScrape, threading.Timer):
     def build_search(self):
         """Build the headers and params for the search request for the search engine."""
 
-        self.search_params = get_GET_params_for_search_engine(self.query, self.search_engine_name,
+        self.search_params = get_GET_params_for_search_engine(self.query, self.search_engine_name, self.config,
                                                               self.page_number, self.num_results_per_page,
                                                               self.search_type)
 
         self.parser = get_parser_by_search_engine(self.search_engine_name)
         self.parser = self.parser(config=self.config)
 
-    def search(self, rand=True, timeout=15):
+    def search(self, rand=False, timeout=15):
         """The actual search for the search engine.
 
         When raising StopScrapingException, the scraper will stop.
@@ -258,7 +264,7 @@ class HttpScrape(SearchEngineScrape, threading.Timer):
         self.build_search()
 
         if rand:
-            self.headers['User-Agent'] = random_user_agent(only_desktop=True)
+            self.headers['User-Agent'] = random.choice(user_agents)
 
         try:
             super().detection_prevention_sleep()

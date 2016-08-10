@@ -674,7 +674,7 @@ class YahooParser(Parser):
 
     effective_query_selector = ['.msg #cquery a::attr(href)']
 
-    num_results_search_selectors = ['#pg > span:last-child', '.compPagination span::text']
+    num_results_search_selectors = ['#pg > span:last-child']
 
     page_number_selectors = ['#pg > strong::text']
 
@@ -687,15 +687,7 @@ class YahooParser(Parser):
                 'snippet': 'div.abstr::text',
                 'title': 'div > h3 > a::text',
                 'visible_link': 'span.url::text'
-            },
-            'de_ip_december_2015': {
-                'container': '#main',
-                'result_container': '.searchCenterMiddle li',
-                'link': 'h3.title a::attr(href)',
-                'snippet': '.compText p::text',
-                'title': 'h3.title a::text',
-                'visible_link': 'span::text'
-            },
+            }
         },
     }
 
@@ -857,15 +849,7 @@ class DuckduckgoParser(Parser):
                 'snippet': 'result__snippet::text',
                 'title': '.result__title > a::text',
                 'visible_link': '.result__url__domain::text'
-            },
-            'non_javascript_mode': {
-                'container': '#content',
-                'result_container': '.results_links',
-                'link': '.links_main > a::attr(href)',
-                'snippet': '.snippet::text',
-                'title': '.links_main > a::text',
-                'visible_link': '.url::text'
-            },
+            }
         },
     }
 

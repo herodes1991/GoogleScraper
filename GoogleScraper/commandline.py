@@ -121,6 +121,8 @@ NOTSET = 0
                              'want to use more than one at the same time, just separate with commatas: "google, bing, '
                              'yandex". If you want to use all search engines that are available, give \'*\' as '
                              'argument.')
+    parser.add_argument('-c', '--country', action='store', type=str, default=None,
+                        help='Country to use for search')
 
     if only_print_help:
         parser.print_help()

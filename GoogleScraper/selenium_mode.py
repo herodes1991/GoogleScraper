@@ -20,6 +20,7 @@ try:
     from selenium.webdriver.support.ui import WebDriverWait  # available since 2.4.0
     from selenium.webdriver.support import expected_conditions as EC  # available since 2.26.0
     from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
+    from pyvirtualdisplay import Display
 except ImportError as ie:
     print(ie)
     sys.exit('You can install missing modules with `pip3 install [modulename]`')
@@ -28,6 +29,10 @@ from GoogleScraper.scraping import SearchEngineScrape, SeleniumSearchError, get_
 from GoogleScraper.user_agents import random_user_agent
 import logging
 
+
+display = Display(visible=0, size=(800, 800))  
+display.start()
+driver = webdriver.Chrome()
 
 logger = logging.getLogger(__name__)
 
