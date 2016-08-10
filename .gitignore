@@ -86,6 +86,9 @@ coverage.xml
 .project
 .pydevproject
 
+# pypirc
+.pypirc
+
 # Rope
 .ropeproject
 

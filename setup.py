@@ -11,7 +11,7 @@ version = re.search(
 
 requirements = [r for r in open('requirements.txt', 'r').read().split('\n') if r]
 
-setup(name='GoogleScraper',
+setup(name='CountryGoogleScraper',
       version=version,
       description='A module to scrape and extract links, titles and descriptions from various search engines. Supports google,bing,yandex and many more.',
       long_description=open('README.md').read(),
