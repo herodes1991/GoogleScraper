@@ -94,6 +94,9 @@ def get_GET_params_for_search_engine(query, search_engine, config, page_number=1
     elif search_engine == 'bing':
         search_params['q'] = query
         # bing doesn't support variable number of results (As far as I know).
+        if isinstance(config['country'], str):
+                   print(config['country'])
+                   search_params['loc'] = (config['country']).upper()
         if page_number > 1:
             search_params['first'] = str(1 + ((page_number - 1) * 10))
 
