@@ -484,9 +484,9 @@ class YandexParser(Parser):
     normal_search_selectors = {
         'results': {
             'de_ip': {
-                'container': 'div.serp-list',
-                'result_container': 'div.serp-item',
-                'link': 'a.serp-item__title-link::attr(href)',
+                'container': 'div.content__left',
+                'result_container': 'ul > li',
+                'link': 'div > h2 > a:attr(href)',
                 'snippet': 'div.serp-item__text::text',
                 'title': 'a.serp-item__title-link::text',
                 'visible_link': 'a.serp-url__link::attr(href)'
@@ -681,9 +681,9 @@ class YahooParser(Parser):
     normal_search_selectors = {
         'results': {
             'de_ip': {
-                'container': '#main',
-                'result_container': '.res',
-                'link': 'div > h3 > a::attr(href)',
+                'container': '#web',
+                'result_container': 'ol > li > div > div > h3',
+                'link': 'a::attr(href)',
                 'snippet': 'div.abstr::text',
                 'title': 'div > h3 > a::text',
                 'visible_link': 'span.url::text'
@@ -891,9 +891,9 @@ class AskParser(Parser):
     normal_search_selectors = {
         'results': {
             'de_ip': {
-                'container': '#midblock',
-                'result_container': '.ptbs.ur',
-                'link': '.abstract > a::attr(href)',
+                'container': '#lindm',
+                'result_container': 'div',
+                'link': 'div > div > div > a::attr(href)',
                 'snippet': '.abstract::text',
                 'title': '.txt_lg.b::text',
                 'visible_link': '.durl span::text'
