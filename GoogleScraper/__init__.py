@@ -20,4 +20,5 @@ All objects imported here are exposed as the public API of GoogleScraper
 from GoogleScraper.core import scrape_with_config
 from GoogleScraper.scraping import GoogleSearchError, MaliciousRequestDetected
 
+logging.basicConfig(filename='/var/tmp/google_scraper.log')
 logging.getLogger(__name__)
